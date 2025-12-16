@@ -133,7 +133,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z"/><path d="M18 12v.5"/><path d="M16 17.93a9.77 9.77 0 0 1 0-11.86"/><path d="M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33"/><path d="M10.42 15.12c-.1-.09-.15-.13-.2-.25-.1-.24-.09-.5.03-.74.13-.26.37-.43.66-.47.29-.04.58.02.82.17.24.15.39.41.42.69.04.29-.02.58-.17.82-.15.24-.41.39-.69.42a.88.88 0 0 1-.87-.64Z"/></svg>
         );
 
-        // --- Helper Functions for Weather (Moved outside to avoid ReferenceError) ---
+        // --- Helper Functions for Weather ---
         const getWeatherIcon = (code) => {
             if (code === 0) return "☀️";
             if (code === 1) return "🌤️";
@@ -194,7 +194,7 @@
                         </div>
                         
                         <div className="flex items-center gap-2">
-                            {/* 只有展開時，且 actionButton 存在時才顯示 (修正：這裡加入了 isOpen 的判斷) */}
+                            {/* 只有展開時，且 actionButton 存在時才顯示 */}
                             {isOpen && actionButton && (
                                 <div onClick={(e) => e.stopPropagation()} className="animate-in fade-in zoom-in duration-200">
                                     {actionButton}
@@ -228,7 +228,7 @@
             const [currentWeather, setCurrentWeather] = useState(null);
 
             // --- STATE LIFTED UP ---
-            const [itineraryData, setItineraryData] = useState({
+            const DEFAULT_ITINERARY = {
                 1: [
                     { type: 'clock', title: '出發前往機場', desc: '小家出發 (30min) ➜ 雲林高鐵 (1hr) ➜ 桃園高鐵 (20min) ➜ 第一航廈\n💡 高鐵時間待定 (02/27)', linkTab: null },
                     { type: 'plane', title: '14:40 機場吃飯 + 搭飛機', desc: '', linkTab: null },
@@ -254,9 +254,9 @@
                     { type: 'plane', title: '12:00 機場逛街 & 搭機', desc: '機場吃飯、最後採買', linkTab: null }, 
                     { type: 'map', title: '抵達溫暖的家', desc: '桃園一航 (20min) ➜ 桃園高鐵 (1hr) ➜ 雲林高鐵 (30min) ➜ 小家', linkTab: null }
                 ]
-            });
+            };
 
-            const [todos, setTodos] = useState([
+            const DEFAULT_TODOS = [
                 { id: 1, text: '找住宿(環球+海生館)', status: 'done', category: '住宿', note: '', link: '' },
                 { id: 2, text: '找住宿(大阪市區)', status: 'todo', category: '住宿', note: '', link: '' },
                 { id: 3, text: '虎航選位置', status: 'done', category: '機票', note: '', link: '' },
@@ -266,7 +266,26 @@
                 { id: 7, text: '買海游館門票', status: 'waiting', category: '門票', date: '2026年1月29日', note: '官網購票前一個月開放\n外部網站購票便宜but時間3點後\n現場購票排隊約20-40分鐘', link: 'https://webket.jp/pc/ticket/index?fc=00290&ac=0000&_gl=1' },
                 { id: 8, text: '下載Travel Contents 綁定票券', status: 'todo', category: '門票', note: '', link: '' },
                 { id: 9, text: 'WEST QR註冊會員', status: 'todo', category: '交通', note: '用於JR關西環遊券\n要先在Travel contents領取憑證', link: '' },
-            ]);
+            ];
+
+            const [itineraryData, setItineraryData] = useState(() => {
+                const saved = localStorage.getItem('osaka_itinerary_2026');
+                return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
+            });
+
+            const [todos, setTodos] = useState(() => {
+                const saved = localStorage.getItem('osaka_todos_2026');
+                return saved ? JSON.parse(saved) : DEFAULT_TODOS;
+            });
+
+            // --- Effects for Auto-Saving ---
+            useEffect(() => {
+                localStorage.setItem('osaka_itinerary_2026', JSON.stringify(itineraryData));
+            }, [itineraryData]);
+
+            useEffect(() => {
+                localStorage.setItem('osaka_todos_2026', JSON.stringify(todos));
+            }, [todos]);
 
             useEffect(() => {
                 const handleResize = () => {
@@ -301,18 +320,6 @@
                 { id: 'todo', label: '待', icon: CheckSquare },
                 { id: 'expenses', label: '帳', icon: Wallet },
             ];
-
-            const getWeatherIcon = (code) => {
-                if (code === 0) return "☀️";
-                if (code === 1) return "🌤️";
-                if (code === 2) return "⛅";
-                if (code === 3) return "☁️";
-                if (code >= 45 && code <= 48) return "🌫️";
-                if (code >= 51 && code <= 67) return "🌧️";
-                if (code >= 71 && code <= 77) return "🌨️";
-                if (code >= 80 && code <= 99) return "⛈️";
-                return "❓";
-            };
 
             // --- Views ---
             const ItineraryView = () => {
@@ -394,8 +401,8 @@
                                 <p className="text-[#4A70A9] text-xs mt-1 font-medium">Exploring Osaka</p>
                             </div>
                             <button onClick={() => setIsEditing(!isEditing)} className="text-xs bg-[#F26419] text-white px-3 py-1.5 rounded-full hover:bg-[#F26419]/80 transition shadow-sm flex items-center gap-2">
-                                {isEditing ? <X size={14} /> : <PenLine size={14} />}
-                                {isEditing ? '取消' : '編輯行程'}
+                                {isEditing ? <X size={14} /> : <PlusCircle size={14} />}
+                                {isEditing ? '取消' : '新增行程'}
                             </button>
                         </div>
 
@@ -619,10 +626,12 @@
                     </div>
                     <CollapsibleSection title="關西機場 ➜ 大阪港(海游館)" subTitle="入境交通" icon={Plane} accentColor="bg-[#4A70A9]">
                         <div className="relative pl-4 space-y-6 before:absolute before:left-[19px] before:top-2 before:h-[85%] before:w-[2px] before:bg-[#EFECE3]">
-                            <div className="relative flex gap-4"><div className="w-3 h-3 rounded-full bg-[#4A70A9] mt-1.5 relative z-10 ring-4 ring-white"></div><div className="flex-1"><div className="flex justify-between items-start"><p className="font-bold text-black text-sm">關西機場站</p><span className="text-[10px] font-bold bg-[#4A70A9]/10 text-[#4A70A9] px-2 py-0.5 rounded">HARUKA 特快</span></div><p className="text-sm text-gray-500 mt-0.5">車程約 35 分鐘</p></div></div>
-                            <div className="relative flex gap-4"><div className="w-3 h-3 rounded-full bg-[#8FABD4] mt-1.5 relative z-10 ring-4 ring-white"></div><div className="flex-1"><div className="flex justify-between items-start"><p className="font-bold text-black text-sm">天王寺站</p><span className="text-[10px] font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded">JR 大阪環狀線</span></div></div></div>
-                            <div className="relative flex gap-4"><div className="w-3 h-3 rounded-full bg-[#8FABD4] mt-1.5 relative z-10 ring-4 ring-white"></div><div className="flex-1"><div className="flex justify-between items-start"><p className="font-bold text-black text-sm">弁天町站</p><span className="text-[10px] font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded">地鐵 中央線</span></div></div></div>
-                            <div className="relative flex gap-4"><div className="w-3 h-3 rounded-full bg-black mt-1.5 relative z-10 ring-4 ring-white"></div><div><p className="font-bold text-black text-sm">大阪港站</p><p className="text-sm text-gray-500 mt-0.5">下車後步行 5 分鐘抵達飯店</p></div></div>
+                            <div className="relative flex gap-4"><div className="w-3 h-3 rounded-full bg-[#4A70A9] mt-1.5 relative z-10 ring-4 ring-white"></div><div className="flex-1">
+                                <div className="text-sm text-black/80 leading-relaxed">
+                                    機場特快 HARUKA 號 <span className="font-bold">關西機場站</span> ➜ <span className="font-bold">天王寺站</span> ➜ 轉乘 <span className="bg-[#E11D48] text-white px-1.5 py-0.5 rounded text-[10px]">JR 大阪環狀線</span> ➜ <span className="font-bold">弁天町站</span> ➜ 轉乘 <span className="bg-[#10B981] text-white px-1.5 py-0.5 rounded text-[10px]">地鐵 中央線</span> ➜ <span className="font-bold">大阪港站</span>
+                                </div>
+                                <p className="text-xs text-gray-500 mt-2">車程約 35 分鐘</p>
+                            </div></div>
                         </div>
                         <div className="mt-6 bg-[#FAF9F6] border border-[#4A70A9]/20 rounded-xl p-4">
                             <div className="flex items-center gap-2 mb-3"><Key size={16} className="text-[#4A70A9]" /><span className="font-bold text-sm text-[#4A70A9]">HARUKA 車票領取攻略</span></div>
@@ -656,11 +665,39 @@
                         <div className="flex justify-between items-center mb-6 text-sm"><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">CHECK-IN</p><p className="text-2xl font-bold text-black">02/27</p><p className="text-sm text-gray-400 font-medium">16:00 後</p></div><div className="w-px h-12 bg-[#6386BB]/30 mx-4"></div><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">CHECK-OUT</p><p className="text-2xl font-bold text-black">03/01</p><p className="text-sm text-gray-400 font-medium">10:00 前</p></div><div className="hidden md:block ml-auto text-xs text-[#4A70A9] bg-[#4A70A9]/5 px-2 py-1 rounded self-start">*取消扣 82%</div></div>
                         <div className="md:hidden text-xs text-[#4A70A9] bg-[#4A70A9]/5 px-2 py-1 rounded text-center mb-4">*取消訂單須支付 82% 費用</div>
                         <div className="pt-4 border-t border-[#6386BB]/10"><h3 className="text-xs font-bold text-[#4A70A9] mb-2 flex items-center gap-1"><TrainFront size={14} /> 機場交通</h3><p className="text-sm text-black/70 leading-relaxed">HARUKA ➜ 天王寺 (轉JR環狀線) ➜ 弁天町 (轉中央線) ➜ 大阪港站</p></div>
-                        <div className="mt-4 pt-3 border-t border-[#6386BB]/10 flex justify-between items-center"><div className="text-[10px] text-black/50">+81-72-4580018</div><a href="https://maps.google.com/?q=FDS+Serene+Osaka" target="_blank" rel="noreferrer" className="text-[#4A70A9] text-xs font-bold flex items-center hover:underline">Google Map <ChevronRight size={12} /></a></div>
+                        <div className="mt-4 pt-3 border-t border-[#6386BB]/10 flex justify-between items-center"><div className="text-[10px] text-black/50">+815038523872</div><a href="https://maps.google.com/?q=FDS+Serene+Osaka" target="_blank" rel="noreferrer" className="text-[#4A70A9] text-xs font-bold flex items-center hover:underline">Google Map <ChevronRight size={12} /></a></div>
                     </CollapsibleSection>
+                    
+                    <CollapsibleSection title="Chisun Standard" subTitle="03/01 - 03/02 (1 Night)" icon={Hotel} accentColor="#6386BB">
+                        <div className="h-32 bg-[#EFECE3] flex items-center justify-center text-[#6386BB] rounded-xl mb-4 relative group overflow-hidden"><Hotel size={40} className="text-[#4A70A9]" /><div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/40 to-transparent"></div><div className="absolute bottom-3 left-5"><div className="text-white/80 text-[10px] font-medium mb-0.5">チサン スタンダード 大阪新今宮</div><div className="text-white font-bold text-lg leading-tight">Chisun Standard<br/>Osaka Shin-Imamiya</div></div><span className="absolute top-3 right-3 px-2 py-0.5 rounded text-[10px] bg-white/90 text-[#6386BB] font-bold">e路東瀛</span></div>
+                        <div className="grid grid-cols-2 gap-4 mb-5 p-4 bg-[#FAF9F6] rounded-xl border border-[#6386BB]/10">
+                            <div><div className="flex items-center gap-1 text-[#6386BB] mb-1"><Hash size={12} /><span className="text-[10px] font-bold uppercase">Booking ID</span></div><p className="font-mono font-bold text-sm text-black">6179875310</p></div>
+                            <div className="text-right"><div className="flex items-center justify-end gap-1 text-[#6386BB] mb-1"><Key size={12} /><span className="text-[10px] font-bold uppercase">Reference ID</span></div><p className="font-mono font-bold text-sm text-[#4A70A9]">1678743343</p></div>
+                            <div className="col-span-2 border-t border-[#6386BB]/10 pt-2 mt-1"><div className="flex items-center gap-1 text-[#6386BB] mb-1"><User size={12} /><span className="text-[10px] font-bold uppercase">Booker</span></div><p className="font-bold text-sm text-black">Wei Jian-You</p></div>
+                        </div>
+                        <div className="flex justify-between items-center mb-6 text-sm"><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">CHECK-IN</p><p className="text-2xl font-bold text-black">03/01</p><p className="text-sm text-gray-400 font-medium">15:00 後</p></div><div className="w-px h-12 bg-[#6386BB]/30 mx-4"></div><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">CHECK-OUT</p><p className="text-2xl font-bold text-black">03/02</p><p className="text-sm text-gray-400 font-medium">10:00 前</p></div><div className="hidden md:block ml-auto text-xs text-green-600 bg-green-50 px-2 py-1 rounded self-start">*2/28 前免費取消</div></div>
+                        <div className="md:hidden text-xs text-green-600 bg-green-50 px-2 py-1 rounded text-center mb-4">*2/28 前免費取消</div>
+                        
+                        <div className="space-y-4">
+                            <div><h3 className="text-xs font-bold text-black mb-1 flex items-center gap-1"><MapPin size={12} className="text-[#4A70A9]" /> 地址</h3><p className="text-sm text-black/70">1 Chome-2-23 Hanazonokita, Nishinari Ward, Osaka</p></div>
+                            <div className="pt-3 border-t border-[#6386BB]/10">
+                                <h3 className="text-xs font-bold text-[#4A70A9] mb-2 flex items-center gap-1"><TrainFront size={14} /> 交通方式</h3>
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-2 text-xs text-black/80"><span className="bg-black text-white px-1.5 py-0.5 rounded text-[10px]">JR/南海</span><span>新今宮站</span><ChevronRight size={12} className="text-[#6386BB]" /><span className="font-bold">西出口步行 1 分鐘</span></div>
+                                    <div className="flex items-center gap-2 text-xs text-black/80"><span className="bg-[#E11D48] text-white px-1.5 py-0.5 rounded text-[10px]">御堂筋線</span><span>動物園前站</span><ChevronRight size={12} className="text-[#6386BB]" /><span className="font-bold">步行 6 分鐘</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-4 pt-3 border-t border-[#6386BB]/10 flex justify-between items-center"><div className="text-[10px] text-black/50">+81-3-6219-8682</div><a href="https://maps.app.goo.gl/DdusodqLu3mpCsv87" target="_blank" rel="noreferrer" className="text-[#4A70A9] text-xs font-bold flex items-center hover:underline">Google Map <ChevronRight size={12} /></a></div>
+                    </CollapsibleSection>
+
                     <CollapsibleSection title="Odysis Suites" subTitle="03/02 - 03/03 (1 Night)" icon={Hotel} accentColor="bg-[#2d70a4]">
                         <div className="h-36 bg-[#6386BB]/20 flex items-center justify-center text-[#6386BB] rounded-xl mb-4 relative group overflow-hidden"><Hotel size={48} className="text-[#4A70A9]" /><div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/50 to-transparent"></div><div className="absolute bottom-4 left-6"><div className="text-white/80 text-[10px] uppercase tracking-widest mb-0.5">Airport Hotel</div><div className="text-white font-bold text-xl leading-tight">Odysis Suites<br/>Osaka Airport Hotel</div></div><span className="absolute top-3 right-3 px-2 py-0.5 rounded text-[10px] bg-white/90 text-[#2d70a4] font-bold">Trip.com</span></div>
-                        <div className="grid grid-cols-2 gap-4 mb-5 p-4 bg-[#FAF9F6] rounded-xl border border-[#6386BB]/10"><div><div className="flex items-center gap-1 text-[#6386BB] mb-1"><Hash size={12} /><span className="text-[10px] font-bold uppercase">Booking ID</span></div><p className="font-mono font-bold text-sm text-black tracking-tight">1616324836332125</p></div><div className="text-right"><div className="flex items-center justify-end gap-1 text-[#6386BB] mb-1"><Key size={12} /><span className="text-[10px] font-bold uppercase">PIN</span></div><p className="font-mono font-bold text-sm text-[#4A70A9]">4054</p></div></div><div className="col-span-2 border-t border-[#6386BB]/10 pt-2 mt-1"><div className="flex items-center gap-1 text-[#6386BB] mb-1"><User size={12} /><span className="text-[10px] font-bold uppercase">Booker</span></div><p className="font-bold text-sm text-black">JIN JIAYI</p></div>
+                        <div className="grid grid-cols-2 gap-4 mb-5 p-4 bg-[#FAF9F6] rounded-xl border border-[#6386BB]/10">
+                            <div><div className="flex items-center gap-1 text-[#6386BB] mb-1"><Hash size={12} /><span className="text-[10px] font-bold uppercase">Booking ID</span></div><p className="font-mono font-bold text-sm text-black">1616324836332125</p></div>
+                            <div className="text-right"><div className="flex items-center justify-end gap-1 text-[#6386BB] mb-1"><Key size={12} /><span className="text-[10px] font-bold uppercase">PIN</span></div><p className="font-mono font-bold text-sm text-[#4A70A9]">4054</p></div>
+                            <div className="col-span-2 border-t border-[#6386BB]/10 pt-2 mt-1"><div className="flex items-center gap-1 text-[#6386BB] mb-1"><User size={12} /><span className="text-[10px] font-bold uppercase">Booker</span></div><p className="font-bold text-sm text-black">JIN JIAYI</p></div>
+                        </div>
                         <div className="flex justify-between items-center mb-6 text-sm"><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">IN</p><p className="text-2xl font-bold text-black">03/02</p><p className="text-sm text-gray-400 font-medium">15:00 後</p></div><div className="w-px h-12 bg-[#6386BB]/30 mx-4"></div><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">OUT</p><p className="text-2xl font-bold text-black">03/03</p><p className="text-sm text-gray-400 font-medium">11:00 前</p></div><div className="hidden md:block ml-auto text-xs text-green-600 bg-green-50 px-2 py-1 rounded self-start">*3/1 18:00 前免費取消</div></div>
                         <div className="md:hidden text-xs text-green-600 bg-green-50 px-2 py-1 rounded text-center mb-4">*3/1 18:00 前免費取消</div>
                         <div className="bg-[#4A70A9] text-white p-4 rounded-xl shadow-lg shadow-[#4A70A9]/20 mb-6 relative overflow-hidden"><div className="absolute -right-4 -top-4 w-20 h-20 bg-white/10 rounded-full blur-xl"></div><div className="flex items-start gap-3 relative z-10"><div className="p-2 bg-white/20 rounded-lg"><Bus size={20} className="text-white" /></div><div><h3 className="font-bold text-sm mb-1">機場免費接駁車</h3><p className="text-xs text-white/80 mb-2">入住時請務必跟櫃台預約！</p><div className="flex gap-2">{['07:30', '08:15', '08:55'].map(time => (<span key={time} className="bg-white/20 px-2 py-0.5 rounded text-xs font-mono font-bold">{time}</span>))}</div></div></div></div>
