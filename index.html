@@ -228,11 +228,13 @@
             const [currentWeather, setCurrentWeather] = useState(null);
 
             // --- STATE LIFTED UP ---
+            // 更新 Key 為 v7 以便載入新的預設行程資料
             const DEFAULT_ITINERARY = {
                 1: [
                     { type: 'clock', title: '出發前往機場', desc: '小家出發 (30min) ➜ 雲林高鐵 (1hr) ➜ 桃園高鐵 (20min) ➜ 第一航廈\n💡 高鐵時間待定 (02/27)', linkTab: null },
                     { type: 'plane', title: '14:40 機場吃飯 + 搭飛機', desc: '', linkTab: null },
-                    { type: 'map', title: '抵達大阪 & 前往市區', desc: '下飛機後前往大阪市區', linkTab: 'transport' }
+                    { type: 'map', title: '抵達大阪 & 前往市區', desc: '下飛機後前往大阪市區', linkTab: 'transport' },
+                    { type: 'hotel', title: '從市區搭車回飯店入住', desc: '入住 FDS Serene', linkTab: 'accommodation' }
                 ],
                 2: [
                     { type: 'car', title: '前往環球影城', desc: '飯店 ➜ 環球影城 (搭乘 Uber / DiDi / GO)', linkTab: null },
@@ -243,11 +245,14 @@
                     { type: 'hotel', title: '退房 & 前往海遊館', desc: 'FDS Serene Check-out (詢問寄放行李)\n步行 12 分鐘 ➜ 大阪海遊館', linkTab: null },
                     { type: 'food', title: '午餐：天保山購物中心', desc: '天保山市場街逛逛吃飯', linkTab: null },
                     { type: 'train', title: '移動至市區', desc: '帶著行李搭車前往 心齋橋 / 難波', linkTab: 'transport' },
-                    { type: 'hotel', title: '市區逛街 & 飯店 Check-in', desc: '逛街、吃晚餐、入住 Odysis Suites (或市區飯店)', linkTab: null }
+                    { type: 'hotel', title: '入住 Chisun Standard Osaka Shin-Imamiya飯店', desc: '15:00 後可 Check-in', linkTab: 'accommodation' },
+                    { type: 'food', title: '市區逛街、吃晚餐', desc: '心齋橋 / 難波 附近', linkTab: null }
                 ],
                 4: [
-                    { type: 'map', title: '大阪市區自由行', desc: '行程待定，預計是在市區逛逛 + 採買', linkTab: null },
-                    { type: 'hotel', title: '前往臨空城飯店', desc: '入住 Odysis Suites Osaka Airport Hotel', linkTab: 'transport' }
+                    { type: 'hotel', title: '飯店退房 & 寄放行李', desc: '', linkTab: null },
+                    { type: 'map', title: '大阪市區自由行', desc: '在市區逛逛 + 採買', linkTab: null },
+                    { type: 'hotel', title: '回飯店拿行李', desc: '傍晚回飯店領取行李', linkTab: null },
+                    { type: 'train', title: '前往臨空城', desc: '搭車前往 Odysis Suites Osaka Airport Hotel', linkTab: 'transport' }
                 ],
                 5: [
                     { type: 'bus', title: '飯店接駁車', desc: '08:55 出發 (10min) ➜ 關西機場 T1', linkTab: 'accommodation' },
@@ -269,22 +274,22 @@
             ];
 
             const [itineraryData, setItineraryData] = useState(() => {
-                const saved = localStorage.getItem('osaka_itinerary_2026');
+                const saved = localStorage.getItem('osaka_itinerary_2026_v7'); // 升級為 v7
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             const [todos, setTodos] = useState(() => {
-                const saved = localStorage.getItem('osaka_todos_2026');
+                const saved = localStorage.getItem('osaka_todos_2026_v7'); // 升級為 v7
                 return saved ? JSON.parse(saved) : DEFAULT_TODOS;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                localStorage.setItem('osaka_itinerary_2026', JSON.stringify(itineraryData));
+                localStorage.setItem('osaka_itinerary_2026_v7', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
-                localStorage.setItem('osaka_todos_2026', JSON.stringify(todos));
+                localStorage.setItem('osaka_todos_2026_v7', JSON.stringify(todos));
             }, [todos]);
 
             useEffect(() => {
@@ -529,13 +534,16 @@
                                                             <ArrowRight size={14} className="text-[#6386BB] group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2"/>
                                                         </div>
                                                     ) : (
-                                                        <div className={`text-sm text-gray-600 leading-relaxed whitespace-pre-line ${item.type === 'car' || item.type === 'hotel' ? 'bg-[#FAF9F6] p-2 rounded-lg inline-block' : ''}`}>{item.desc}</div>
+                                                        // 這裡修正了：如果沒有 desc，則不顯示這個 div，避免空一行
+                                                        item.desc ? (
+                                                            <div className={`text-sm text-gray-600 leading-relaxed whitespace-pre-line ${item.type === 'car' || item.type === 'hotel' ? 'bg-[#FAF9F6] p-2 rounded-lg inline-block' : ''}`}>{item.desc}</div>
+                                                        ) : null
                                                     )}
                                                     
                                                     {/* 航班按鈕 (僅 Day1/5 plane) */}
                                                     {(day === 1 && item.type === 'plane') || (day === 5 && item.type === 'plane') ? (
                                                         <div className={`absolute right-0 top-0 ${isDayEditing ? 'right-16' : 'right-0'}`}>
-                                                            <button className="text-xs font-bold bg-[#F26419] text-white px-3 py-1.5 rounded-lg hover:bg-[#F26419]/80 transition-colors flex items-center gap-1 shadow-md" onClick={() => setActiveTab('flights')}>
+                                                            <button className="text-sm font-bold bg-[#F26419] text-white px-4 py-2 rounded-lg hover:bg-[#F26419]/80 transition-colors flex items-center gap-1 shadow-md" onClick={() => setActiveTab('flights')}>
                                                                 <Plane size={14} /> 航班
                                                             </button>
                                                         </div>
