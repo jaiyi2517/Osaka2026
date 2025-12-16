@@ -402,7 +402,7 @@
                             </div>
                             <button onClick={() => setIsEditing(!isEditing)} className="text-xs bg-[#F26419] text-white px-3 py-1.5 rounded-full hover:bg-[#F26419]/80 transition shadow-sm flex items-center gap-2">
                                 {isEditing ? <X size={14} /> : <PlusCircle size={14} />}
-                                {isEditing ? '取消' : '新增行程'}
+                                {isEditing ? '取消新增' : '新增行程'}
                             </button>
                         </div>
 
@@ -535,7 +535,7 @@
                                                     {/* 航班按鈕 (僅 Day1/5 plane) */}
                                                     {(day === 1 && item.type === 'plane') || (day === 5 && item.type === 'plane') ? (
                                                         <div className={`absolute right-0 top-0 ${isDayEditing ? 'right-16' : 'right-0'}`}>
-                                                            <button className="text-sm font-bold bg-[#F26419] text-white px-4 py-2 rounded-lg hover:bg-[#F26419]/80 transition-colors flex items-center gap-1 shadow-md" onClick={() => setActiveTab('flights')}>
+                                                            <button className="text-xs font-bold bg-[#F26419] text-white px-3 py-1.5 rounded-lg hover:bg-[#F26419]/80 transition-colors flex items-center gap-1 shadow-md" onClick={() => setActiveTab('flights')}>
                                                                 <Plane size={14} /> 航班
                                                             </button>
                                                         </div>
@@ -698,7 +698,7 @@
                             <div className="text-right"><div className="flex items-center justify-end gap-1 text-[#6386BB] mb-1"><Key size={12} /><span className="text-[10px] font-bold uppercase">PIN</span></div><p className="font-mono font-bold text-sm text-[#4A70A9]">4054</p></div>
                             <div className="col-span-2 border-t border-[#6386BB]/10 pt-2 mt-1"><div className="flex items-center gap-1 text-[#6386BB] mb-1"><User size={12} /><span className="text-[10px] font-bold uppercase">Booker</span></div><p className="font-bold text-sm text-black">JIN JIAYI</p></div>
                         </div>
-                        <div className="flex justify-between items-center mb-6 text-sm"><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">IN</p><p className="text-2xl font-bold text-black">03/02</p><p className="text-sm text-gray-400 font-medium">15:00 後</p></div><div className="w-px h-12 bg-[#6386BB]/30 mx-4"></div><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">OUT</p><p className="text-2xl font-bold text-black">03/03</p><p className="text-sm text-gray-400 font-medium">11:00 前</p></div><div className="hidden md:block ml-auto text-xs text-green-600 bg-green-50 px-2 py-1 rounded self-start">*3/1 18:00 前免費取消</div></div>
+                        <div className="flex justify-between items-center mb-6 text-sm"><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">CHECK-IN</p><p className="text-2xl font-bold text-black">03/02</p><p className="text-sm text-gray-400 font-medium">15:00 後</p></div><div className="w-px h-12 bg-[#6386BB]/30 mx-4"></div><div className="text-center md:text-left"><p className="text-[#6386BB] text-xs font-bold mb-1">CHECK-OUT</p><p className="text-2xl font-bold text-black">03/03</p><p className="text-sm text-gray-400 font-medium">11:00 前</p></div><div className="hidden md:block ml-auto text-xs text-green-600 bg-green-50 px-2 py-1 rounded self-start">*3/1 18:00 前免費取消</div></div>
                         <div className="md:hidden text-xs text-green-600 bg-green-50 px-2 py-1 rounded text-center mb-4">*3/1 18:00 前免費取消</div>
                         <div className="bg-[#4A70A9] text-white p-4 rounded-xl shadow-lg shadow-[#4A70A9]/20 mb-6 relative overflow-hidden"><div className="absolute -right-4 -top-4 w-20 h-20 bg-white/10 rounded-full blur-xl"></div><div className="flex items-start gap-3 relative z-10"><div className="p-2 bg-white/20 rounded-lg"><Bus size={20} className="text-white" /></div><div><h3 className="font-bold text-sm mb-1">機場免費接駁車</h3><p className="text-xs text-white/80 mb-2">入住時請務必跟櫃台預約！</p><div className="flex gap-2">{['07:30', '08:15', '08:55'].map(time => (<span key={time} className="bg-white/20 px-2 py-0.5 rounded text-xs font-mono font-bold">{time}</span>))}</div></div></div></div>
                         <div className="space-y-4"><div><h3 className="text-xs font-bold text-black mb-1 flex items-center gap-1"><MapPin size={12} className="text-[#4A70A9]" /> 地址</h3><p className="text-sm text-black/70">1 Rinkuoraikita, Izumisano, Osaka 598-0048</p></div><div className="pt-3 border-t border-[#6386BB]/10"><h3 className="text-xs font-bold text-[#4A70A9] mb-2 flex items-center gap-1"><TrainFront size={14} /> 交通方式</h3><div className="flex items-center gap-2 text-xs text-black/80"><span className="bg-black text-white px-1.5 py-0.5 rounded text-[10px]">JR/南海</span><span>臨空城站 (Rinku Town)</span><ChevronRight size={12} className="text-[#6386BB]" /><span className="font-bold">步行 1 分鐘</span></div></div></div>
