@@ -124,7 +124,8 @@
         const Pencil = (props) => <IconWrapper name="Pencil" {...props} />;
         const Trash2 = (props) => <IconWrapper name="Trash2" {...props} />;
         const Check = (props) => <IconWrapper name="Check" {...props} />;
-        // Define ExternalLinkIcon specifically to fix the ReferenceError
+        
+        // Define ExternalLinkIcon explicitly to fix the ReferenceError
         const ExternalLinkIcon = (props) => <IconWrapper name="ExternalLink" {...props} />;
 
         const ShoppingBagIcon = ({size, className}) => (
@@ -196,7 +197,6 @@
                         </div>
                         
                         <div className="flex items-center gap-2">
-                            {/* 只有展開時，且 actionButton 存在時才顯示 */}
                             {isOpen && actionButton && (
                                 <div onClick={(e) => e.stopPropagation()} className="animate-in fade-in zoom-in duration-200">
                                     {actionButton}
@@ -440,10 +440,10 @@
                         {[1, 2, 3, 4, 5].map((day) => {
                             const dayConfig = {
                                 1: { title: "Day 1 - 出發 & 抵達", subtitle: "02/27 (五) • 逃離辦公室", icon: Plane, color: "bg-[#4A70A9]" },
-                                2: { title: "Day 2 - 環球影城", subtitle: "02/28 (六) • 瑪利歐跳跳", icon: Ticket, color: "bg-[#E11D48]" },
-                                3: { title: "Day 3 - 海遊館 & 市區", subtitle: "03/01 (日) • 魚兒水中游", icon: FishIcon, color: "bg-[#0EA5E9]" },
-                                4: { title: "Day 4 - 市區漫遊", subtitle: "03/02 (一) • 掃貨大作戰", icon: ShoppingBagIcon, color: "bg-[#F59E0B]" },
-                                5: { title: "Day 5 - 返程", subtitle: "03/03 (二) • 滿載回家去", icon: Plane, color: "bg-[#10B981]" },
+                                2: { title: "Day 2 - 環球影城", subtitle: "02/28 (六) • 瑪利歐跳跳", icon: Ticket, color: "bg-[#F26419]" },
+                                3: { title: "Day 3 - 海遊館 & 市區", subtitle: "03/01 (日) • 魚兒水中游", icon: FishIcon, color: "bg-[#4A70A9]" },
+                                4: { title: "Day 4 - 市區漫遊", subtitle: "03/02 (一) • 掃貨大作戰", icon: ShoppingBagIcon, color: "bg-[#F26419]" },
+                                5: { title: "Day 5 - 返程", subtitle: "03/03 (二) • 滿載回家去", icon: Plane, color: "bg-[#4A70A9]" },
                             }[day];
                             const items = itineraryData[day] || [];
                             const isDayEditing = editingDayId === day;
