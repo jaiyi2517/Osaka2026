@@ -237,7 +237,7 @@
                     { type: 'hotel', title: '從市區搭車回飯店入住', desc: '入住 FDS Serene', linkTab: 'accommodation' }
                 ],
                 2: [
-                    { type: 'car', title: '前往環球影城', desc: '飯店 ➜ 環球影城 (搭乘 Uber / DiDi / GO)', linkTab: null },
+                    { type: 'car', title: '前往環球影城', desc: '飯店 ➜ 環球影城 (搭乘 Uber / DiDi / GO)\n\n📍 上車地：大阪府大阪市港区築港2-4-27\n📍 下車地：USJ ユニバーサル・スタジオ・ジャパン', linkTab: null },
                     { type: 'ticket', title: '環球影城 USJ ꒰✩´˘`✩꒱', desc: '全日遊玩！記得查看快速通關時間。', linkTab: null },
                     { type: 'food', title: '晚餐', desc: '尚待討論！', linkTab: null }
                 ],
@@ -262,13 +262,13 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                const saved = localStorage.getItem('osaka_itinerary_2026_v11'); // Updated to v11
+                const saved = localStorage.getItem('osaka_itinerary_2026_v12'); // Updated to v12
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                localStorage.setItem('osaka_itinerary_2026_v11', JSON.stringify(itineraryData));
+                localStorage.setItem('osaka_itinerary_2026_v12', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
