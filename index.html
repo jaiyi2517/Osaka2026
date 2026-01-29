@@ -231,7 +231,7 @@
             // --- STATE LIFTED UP ---
             const DEFAULT_ITINERARY = {
                 1: [
-                    { type: 'clock', title: '出發前往機場', desc: '小家出發 (30min) ➜ 雲林高鐵 (1hr) ➜ 桃園高鐵 (20min) ➜ 第一航廈\n💡 高鐵時間待定 (02/27)', linkTab: null },
+                    { type: 'train', title: '10:12 高鐵 & 機捷前往機場', desc: '🚄 高鐵 0814 車次\n10:12 雲林站 ➜ 11:18 桃園站\n\n🚇 機場捷運\n11:32 高鐵桃園站 ➜ 11:51 第一航廈', linkTab: null },
                     { type: 'plane', title: '14:40 機場吃飯 + 搭飛機', desc: '', linkTab: null },
                     { type: 'map', title: '抵達大阪 & 前往市區', desc: '下飛機後前往大阪市區', linkTab: 'transport' },
                     { type: 'hotel', title: '從市區搭車回飯店入住', desc: '入住 FDS Serene', linkTab: 'accommodation' }
@@ -242,7 +242,7 @@
                     { type: 'food', title: '晚餐', desc: '尚待討論！', linkTab: null }
                 ],
                 3: [
-                    { type: 'hotel', title: '退房 & 前往海遊館', desc: 'FDS Serene Check-out (詢問寄放行李)\n步行 12 分鐘 ➜ 大阪海遊館', linkTab: null },
+                    { type: 'hotel', title: '退房 & 前往海遊館', desc: 'FDS Serene Check-out (退房後尋找附近寄放行李的地點)\n步行 12 分鐘 ➜ 大阪海遊館', linkTab: null },
                     { type: 'food', title: '午餐：天保山購物中心', desc: '天保山市場街逛逛吃飯', linkTab: null },
                     { type: 'train', title: '移動至市區', desc: '帶著行李搭車前往 心齋橋 / 難波', linkTab: 'transport' },
                     { type: 'hotel', title: '入住 Chisun Standard Osaka Shin-Imamiya飯店', desc: '15:00 後可 Check-in', linkTab: 'accommodation' },
@@ -262,13 +262,13 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                const saved = localStorage.getItem('osaka_itinerary_2026_v9'); // Updated to v9
+                const saved = localStorage.getItem('osaka_itinerary_2026_v11'); // Updated to v11
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                localStorage.setItem('osaka_itinerary_2026_v9', JSON.stringify(itineraryData));
+                localStorage.setItem('osaka_itinerary_2026_v11', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
@@ -514,7 +514,7 @@
                                                         </div>
                                                     ) : (
                                                         item.desc ? (
-                                                            <div className={`text-sm text-gray-600 leading-relaxed whitespace-pre-line ${item.type === 'car' || item.type === 'hotel' ? 'bg-[#FAF9F6] p-2 rounded-lg inline-block' : ''}`}>{item.desc}</div>
+                                                            <div className={`text-sm text-gray-600 leading-relaxed whitespace-pre-line ${item.type === 'car' || item.type === 'hotel' || item.type === 'train' ? 'bg-[#FAF9F6] p-2 rounded-lg inline-block' : ''}`}>{item.desc}</div>
                                                         ) : null
                                                     )}
                                                     
