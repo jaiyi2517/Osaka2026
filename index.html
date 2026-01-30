@@ -242,11 +242,17 @@
                     { type: 'food', title: '晚餐', desc: '尚待討論！', linkTab: null }
                 ],
                 3: [
-                    { type: 'hotel', title: '退房 & 前往海遊館', desc: 'FDS Serene Check-out (退房後尋找附近寄放行李的地點)\n步行 12 分鐘 ➜ 大阪海遊館', linkTab: null },
-                    { type: 'food', title: '午餐：天保山購物中心', desc: '天保山市場街逛逛吃飯', linkTab: null },
-                    { type: 'train', title: '移動至市區', desc: '帶著行李搭車前往 心齋橋 / 難波', linkTab: 'transport' },
-                    { type: 'hotel', title: '入住 Chisun Standard Osaka Shin-Imamiya飯店', desc: '15:00 後可 Check-in', linkTab: 'accommodation' },
-                    { type: 'food', title: '市區逛街、吃晚餐', desc: '心齋橋 / 難波 附近', linkTab: null }
+                    { type: 'hotel', title: '09:30 退房 & 前往大阪港站', desc: 'FDS Serene Check-out\n收拾行李，步行前往地鐵大阪港站', linkTab: null },
+                    { type: 'map', title: '09:45 寄放行李 (大阪港站)', desc: '📍 地點：大阪港站投幣式置物櫃 (順路)\n💡 備案：若滿了則改至海遊館置物櫃', linkTab: null },
+                    { type: 'fish', title: '10:00 大阪海遊館', desc: '🎫 請務必事先買好電子票！\n🐟 路線：從 8F 慢慢逛下來 (約 2.5 小時)', linkTab: null },
+                    { type: 'food', title: '12:30 午餐：天保山購物中心', desc: '地點：2F 難波美食小巷 (海遊館隔壁)', linkTab: null },
+                    { type: 'train', title: '14:00 取行李 & 前往市區', desc: '🔙 回大阪港站取行李\n🚇 大阪港 (中央線) ➜ 弁天町 (轉 JR 環狀線) ➜ 新今宮站\n⏱️ 車程約 25 分鐘', linkTab: 'transport' },
+                    { type: 'hotel', title: '14:45 飯店 Check-in', desc: '🏨 Chisun Standard (新今宮站對面)\n🛏️ 15:00 可入住，或先寄放行李休息', linkTab: 'accommodation' },
+                    { type: 'train', title: '15:30 前往梅田', desc: '🚇 動物園前站 (御堂筋線) ➜ 梅田站', linkTab: null },
+                    { type: 'shop', title: '16:00 梅田逛街 (茶屋町)', desc: '1. Mizuno Osaka 旗艦店\n2. AINZ & TULPE (日系美妝)\n3. UNIQLO / GU 梅田旗艦店\n4. 球兒先生 (Yodobashi 後方)\n5. Daikoku Drug 梅北店', linkTab: null },
+                    { type: 'shop', title: '18:30 Yodobashi Camera', desc: '🎮 電器、相機、扭蛋\n💊 B1F 松本清藥妝', linkTab: null },
+                    { type: 'food', title: '19:00 晚餐', desc: '🍽️ 餐廳待定', linkTab: null },
+                    { type: 'hotel', title: '21:00 返回飯店', desc: '🚇 梅田 (御堂筋線) ➜ 動物園前站\n🚶 步行回飯店休息', linkTab: null }
                 ],
                 4: [
                     { type: 'hotel', title: '飯店退房 & 寄放行李', desc: '', linkTab: null },
@@ -262,13 +268,13 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                const saved = localStorage.getItem('osaka_itinerary_2026_v12'); // Updated to v12
+                const saved = localStorage.getItem('osaka_itinerary_2026_v13'); // Updated to v13
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                localStorage.setItem('osaka_itinerary_2026_v12', JSON.stringify(itineraryData));
+                localStorage.setItem('osaka_itinerary_2026_v13', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
