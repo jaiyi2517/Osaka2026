@@ -274,7 +274,7 @@
                 ],
                 2: [
                     { type: 'car', title: '前往環球影城', desc: '飯店 ➜ 環球影城 (搭乘 Uber / DiDi / GO)\n\n📍 上車地：大阪府大阪市港区築港2-4-27\n📍 下車地：USJ ユニバーサル・スタジオ・ジャパン', linkTab: null },
-                    { type: 'ticket', title: '環球影城 USJ ꒰✩´˘`✩꒱', desc: '全日遊玩！', linkTab: null, externalLink: 'https://q6l3wq.csb.app/', linkText: '遊玩規劃' },
+                    { type: 'ticket', title: '環球影城 USJ ꒰✩´˘`✩꒱', desc: '', linkTab: null, externalLink: 'https://q6l3wq.csb.app/', linkText: '遊玩規劃' },
                     { type: 'food', title: '晚餐', desc: '尚待討論！', linkTab: null }
                 ],
                 3: [
@@ -332,13 +332,13 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                const saved = localStorage.getItem('osaka_itinerary_2026_v17'); // Updated to v17
+                const saved = localStorage.getItem('osaka_itinerary_2026_v18'); // Updated to v18
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                localStorage.setItem('osaka_itinerary_2026_v17', JSON.stringify(itineraryData));
+                localStorage.setItem('osaka_itinerary_2026_v18', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
