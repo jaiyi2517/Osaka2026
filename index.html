@@ -291,9 +291,16 @@
                             { action: '轉乘', station: '弁天町站', badge: 'JR 大阪環狀線', badgeColor: 'bg-[#E11D48]' },
                             { action: '抵達', station: '新今宮站', note: '車程約 25 分鐘' }
                         ],
-                        linkTab: 'transport' 
+                        linkTab: 'transport',
+                        linkText: '查看交通詳情'
                     },
-                    { type: 'hotel', title: '14:45 飯店 Check-in', desc: '🏨 新今宮知鄉標準酒店\n🛏️ 15:00 可入住，或先寄放行李休息', linkTab: 'accommodation' },
+                    { 
+                        type: 'hotel', 
+                        title: '14:45 飯店 Check-in', 
+                        desc: '🏨 新今宮知鄉標準酒店\n🛏️ 15:00 可入住，或先寄放行李休息', 
+                        linkTab: 'accommodation',
+                        linkText: '查看飯店詳情'
+                    },
                     { 
                         type: 'train', 
                         title: '15:30 前往梅田', 
@@ -304,13 +311,13 @@
                         ],
                         linkTab: null 
                     },
-                    { type: 'shop', title: '16:00 梅田逛街 (茶屋町)', desc: '1. Mizuno Osaka 旗艦店\n2. AINZ & TULPE (日系美妝)\n3. UNIQLO / GU 梅田旗艦店\n4. 球兒先生 (Yodobashi 後方)\n5. Daikoku Drug 梅北店', linkTab: null },
-                    { type: 'shop', title: '18:30 Yodobashi Camera', desc: '🎮 電器、相機、扭蛋\n💊 B1F 松本清藥妝', linkTab: null },
-                    { type: 'food', title: '19:00 晚餐', desc: '🍽️ 餐廳待定', linkTab: null },
+                    { type: 'shop', title: '16:00 梅田逛街 (茶屋町)', desc: '1. Mizuno Osaka 旗艦店\n2. 球兒先生 (Yodobashi 後方)\n3. Daikoku Drug 梅北店', linkTab: null },
+                    { type: 'shop', title: '18:30 LINKS UMEDA', desc: '🎮 電器、相機、扭蛋\n💄 AINZ & TULPE (2F) -- 日系美妝\n👕 UNIQLO (1F)\n💊 B1F 松本清藥妝', linkTab: null },
+                    { type: 'food', title: '19:00 晚餐', desc: '🍽️ 但馬屋 LINKS UMEDA店（暫定）｜不能預約', linkTab: null },
                     { 
                         type: 'hotel', 
                         title: '21:00 返回飯店', 
-                        desc: '🚶 步行回飯店休息',
+                        desc: '',
                         transport: [
                             { action: '起點', station: '梅田站', badge: '地鐵 御堂筋線', badgeColor: 'bg-[#E11D48]' },
                             { action: '抵達', station: '動物園前站' }
@@ -322,7 +329,13 @@
                     { type: 'hotel', title: '飯店退房 & 寄放行李', desc: '', linkTab: null },
                     { type: 'map', title: '大阪市區自由行', desc: '在市區逛逛 + 採買', linkTab: null },
                     { type: 'hotel', title: '回飯店拿行李', desc: '傍晚回飯店領取行李', linkTab: null },
-                    { type: 'train', title: '前往臨空城', desc: '搭車前往 Odysis Suites Osaka Airport Hotel', linkTab: 'transport' }
+                    { 
+                        type: 'train', 
+                        title: '14:30搭車前往機場飯店', 
+                        desc: '南海地鐵詳情：新今宮站→臨空城站（約 30 分鐘）', 
+                        linkTab: 'transport', 
+                        linkText: '查看交通詳情' 
+                    }
                 ],
                 5: [
                     { type: 'bus', title: '飯店接駁車', desc: '08:55 出發 (10min) ➜ 關西機場 T1', linkTab: 'accommodation' },
@@ -332,13 +345,13 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                const saved = localStorage.getItem('osaka_itinerary_2026_v18'); // Updated to v18
+                const saved = localStorage.getItem('osaka_itinerary_2026_v21'); // Updated to v21
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                localStorage.setItem('osaka_itinerary_2026_v18', JSON.stringify(itineraryData));
+                localStorage.setItem('osaka_itinerary_2026_v21', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
@@ -589,7 +602,7 @@
                                                     {/* 連結按鈕 (內部 Tab 連結) */}
                                                     {item.linkTab && (
                                                         <div className="bg-white border border-[#6386BB]/20 p-3 rounded-xl flex justify-between items-center group cursor-pointer hover:border-[#4A70A9] mt-2" onClick={() => setActiveTab(item.linkTab)}>
-                                                            <div className="text-sm text-gray-600">查看{item.title}詳情</div>
+                                                            <div className="text-sm text-gray-600">{item.linkText || `查看${item.title}詳情`}</div>
                                                             <ArrowRight size={14} className="text-[#6386BB] group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2"/>
                                                         </div>
                                                     )}
