@@ -326,16 +326,38 @@
                     }
                 ],
                 4: [
-                    { type: 'hotel', title: '飯店退房 & 寄放行李', desc: '', linkTab: null },
-                    { type: 'map', title: '大阪市區自由行', desc: '在市區逛逛 + 採買', linkTab: null },
-                    { type: 'hotel', title: '回飯店拿行李', desc: '傍晚回飯店領取行李', linkTab: null },
+                    { type: 'hotel', title: '09:40 飯店退房 & 寄放行李', desc: '在新今宮飯店寄放行李，輕裝出發', linkTab: null },
                     { 
                         type: 'train', 
-                        title: '14:30搭車前往機場飯店', 
-                        desc: '南海地鐵詳情：新今宮站→臨空城站（約 30 分鐘）', 
+                        title: '10:00 前往難波', 
+                        desc: '抵達難波站後，往「南口」或百貨連通道方向移動', 
+                        transport: [
+                            { action: '起點', station: '新今宮站', badge: '南海電鐵', badgeColor: 'bg-[#F97316]' }, 
+                            { action: '抵達', station: '難波站', note: '車程約 2 分鐘' }
+                        ],
+                        linkTab: null 
+                    },
+                    { type: 'map', title: '10:20 Namba Parks 空中花園', desc: '從 8 樓沿戶外階梯往下散步，享受美景', linkTab: null },
+                    { type: 'shop', title: '11:00 Namba Parks 逛街', desc: '推薦 3F~5F 風格雜貨與服飾', linkTab: null },
+                    { type: 'map', title: '12:15 前往餐廳', desc: '步行約 10~12 分鐘，往東南方向散步去餐廳', linkTab: null },
+                    { type: 'food', title: '12:30 午餐：Tonkatsu Kokeshi', desc: '📍 4-5-18 Nipponbashi (日本橋)\nとんかつ こけし (炸豬排名店)', linkTab: null },
+                    { type: 'map', title: '13:40 散步回飯店 (經新世界)', desc: '沿大馬路(堺筋)往南走，途經新世界可玩彈珠台或逛唐吉訶德', linkTab: null },
+                    { type: 'hotel', title: '14:15 抵達飯店 & 領取行李', desc: '回飯店大廳稍作整理、領取行李', linkTab: null },
+                    { 
+                        type: 'train', 
+                        title: '14:30 搭車前往機場飯店', 
+                        desc: '推行李至對面「新今宮站」，搭乘 14:46 空港急行', 
+                        transport: [
+                             { action: '起點', station: '新今宮站', badge: '南海電鐵 空港急行', badgeColor: 'bg-[#F97316]' },
+                             { action: '抵達', station: '臨空城站', note: '車程約 40 分鐘' }
+                        ],
                         linkTab: 'transport', 
                         linkText: '查看交通詳情' 
-                    }
+                    },
+                    { type: 'hotel', title: '15:25 抵達 & 飯店 Check-in', desc: '抵達臨空城站，步行前往機場酒店辦理入住', linkTab: 'accommodation', linkText: '查看飯店詳情' },
+                    { type: 'shop', title: '16:00 Rinku Premium Outlets', desc: '輕裝出門，穿過 Seacle 商場天橋抵達\n★務必先去服務中心領取外國遊客Coupon', linkTab: null },
+                    { type: 'food', title: '18:30 晚餐：Outlet 內享用', desc: '在 Outlet園區內美食街或餐廳享用', linkTab: null },
+                    { type: 'hotel', title: '20:00 最後採買 & 回飯店', desc: '可在車站旁24H大型超市TRIAL最後採買！', linkTab: null }
                 ],
                 5: [
                     { type: 'bus', title: '飯店接駁車', desc: '08:55 出發 (10min) ➜ 關西機場 T1', linkTab: 'accommodation' },
@@ -345,13 +367,13 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                const saved = localStorage.getItem('osaka_itinerary_2026_v21'); // Updated to v21
+                const saved = localStorage.getItem('osaka_itinerary_2026_v24'); // Updated to v24
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                localStorage.setItem('osaka_itinerary_2026_v21', JSON.stringify(itineraryData));
+                localStorage.setItem('osaka_itinerary_2026_v24', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
