@@ -389,15 +389,15 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                // 修改這裡：將版本號從 v29 改為 v30，強制瀏覽器讀取新的預設資料
-                const saved = localStorage.getItem('osaka_itinerary_2026_v30'); 
+                // 修改這裡：將版本號從 v32 改為 v33，強制瀏覽器讀取新的預設資料
+                const saved = localStorage.getItem('osaka_itinerary_2026_v33'); 
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                // 修改這裡：同步更新儲存的名稱為 v30
-                localStorage.setItem('osaka_itinerary_2026_v30', JSON.stringify(itineraryData));
+                // 修改這裡：同步更新儲存的名稱為 v33
+                localStorage.setItem('osaka_itinerary_2026_v33', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
@@ -792,10 +792,141 @@
                                 <p className="text-xs text-gray-500 mt-2">車程約 35 分鐘</p>
                             </div></div>
                         </div>
+                        
+                        {/* 更新後的 HARUKA 車票使用攻略 */}
                         <div className="mt-6 bg-[#FAF9F6] border border-[#4A70A9]/20 rounded-xl p-4">
-                            <div className="flex items-center gap-2 mb-3"><Key size={16} className="text-[#4A70A9]" /><span className="font-bold text-sm text-[#4A70A9]">HARUKA 車票領取攻略</span></div>
-                            <div className="text-sm text-black/70 leading-relaxed space-y-2"><p>1. 入境後搭手扶梯上 2 樓，走空橋前往 <span className="font-bold text-black">「關西機場車站」</span>。</p><p>2. 找到 <span className="font-bold text-green-600 bg-green-50 px-1 rounded">綠色自動售票機</span>。</p><p>3. 點選螢幕 <span className="font-bold text-black">【領取預訂的車票】</span>。</p><p>4. 選擇 <span className="font-bold text-black">【EXCHANGE ORDER (E-TICKET)】</span>。</p><p>5. 掃描手機 QR Code 即可領取。</p></div>
-                            <div className="mt-4 pt-3 border-t border-[#4A70A9]/10 flex items-start gap-2 bg-white p-2 rounded-lg"><Info size={16} className="text-[#4A70A9] mt-0.5 flex-shrink-0" /><div className="text-xs"><span className="font-bold text-[#4A70A9] block mb-1">❗WEST QR 註冊方式：</span><a href="https://www.westjr.co.jp/global/tc/ticket/westqr/userguide/" target="_blank" rel="noreferrer" className="text-black underline hover:text-[#4A70A9] transition-colors break-all">https://www.westjr.co.jp/global/tc/ticket/westqr/userguide/</a></div></div>
+                            <div className="flex items-center gap-2 mb-4 border-b border-[#4A70A9]/10 pb-2">
+                                <Key size={16} className="text-[#4A70A9]" />
+                                <span className="font-bold text-sm text-[#4A70A9]">HARUKA 車票使用攻略</span>
+                            </div>
+                            
+                            <div className="space-y-4">
+                                {/* Step 1 */}
+                                <div className="flex gap-3">
+                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">1</div>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-bold text-black mb-1">登入 WEST QR 系統</p>
+                                        <p className="text-xs text-gray-500 mb-2">找到您的車票</p>
+                                        <a href="https://guest-ui.west-qr.com/#/packages/login/index" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 bg-[#4A70A9] text-white text-xs px-3 py-1.5 rounded-lg shadow-sm hover:bg-[#3b5a8a] transition-colors">
+                                            <ExternalLink size={12} /> 前往登入頁面
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {/* Step 2 */}
+                                <div className="flex gap-3">
+                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">2</div>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-bold text-black mb-1">啟用車票</p>
+                                        <p className="text-xs text-gray-600 leading-relaxed">
+                                            點擊 <span className="font-bold text-[#F26419]">「開始使用 (Use Ticket)」</span>，畫面會出現動態 QR Code。
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Step 3 */}
+                                <div className="flex gap-3">
+                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">3</div>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-bold text-black mb-1">掃碼進站</p>
+                                        <ul className="text-xs text-gray-600 space-y-1">
+                                            <li className="flex items-start gap-1.5">
+                                                <span className="mt-1.5 w-1 h-1 rounded-full bg-[#4A70A9] flex-shrink-0"></span>
+                                                <span>直接前往 JR 改札口</span>
+                                            </li>
+                                            <li className="flex items-start gap-1.5">
+                                                <span className="mt-1.5 w-1 h-1 rounded-full bg-[#4A70A9] flex-shrink-0"></span>
+                                                <span>尋找 <span className="text-red-500 font-bold bg-red-50 px-1 rounded border border-red-100">紅色 QR 掃描器</span> 閘門</span>
+                                            </li>
+                                            <li className="flex items-start gap-1.5">
+                                                <span className="mt-1.5 w-1 h-1 rounded-full bg-[#4A70A9] flex-shrink-0"></span>
+                                                <span>手機螢幕調亮，對準掃描器掃一下</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 詳細轉乘攻略區塊 - 已修正對齊 */}
+                        <div className="mt-6 space-y-4">
+                            <h3 className="font-bold text-[#4A70A9] flex items-center gap-2 text-sm border-b border-[#6386BB]/20 pb-2">
+                                <MapPin size={16} /> 詳細轉乘攻略
+                            </h3>
+                            
+                            {/* Step 1: Tennoji */}
+                            <div className="bg-white p-4 rounded-xl border-l-4 border-[#E11D48] shadow-sm">
+                                <h4 className="font-bold text-black text-sm mb-3 flex justify-between items-center">
+                                    <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-[#E11D48] text-white flex items-center justify-center text-xs font-bold">1</span> 天王寺站轉乘</span>
+                                    <span className="text-[10px] text-gray-400 font-mono">Tennoji</span>
+                                </h4>
+                                <div className="space-y-2 text-sm text-gray-600">
+                                    <div className="flex gap-2 items-center">
+                                        <span className="bg-red-50 text-red-600 text-[10px] font-bold px-1.5 py-0.5 rounded border border-red-100 whitespace-nowrap">動作</span>
+                                        <p className="leading-tight">下 HARUKA 後，<span className="text-red-500 font-bold border-b-2 border-red-200">千萬不要出改札口！</span></p>
+                                    </div>
+                                    <div className="flex gap-2 items-center">
+                                        <span className="bg-gray-100 text-gray-600 text-[10px] font-bold px-1.5 py-0.5 rounded border border-gray-200 whitespace-nowrap">尋找</span>
+                                        <p className="leading-tight">看頭頂指標找「JR 大阪環狀線」</p>
+                                    </div>
+                                    <div className="flex gap-2 items-center">
+                                        <span className="bg-gray-100 text-gray-600 text-[10px] font-bold px-1.5 py-0.5 rounded border border-gray-200 whitespace-nowrap">月台</span>
+                                        <p className="leading-tight">前往 <span className="font-bold text-black bg-yellow-100 px-1 rounded border border-yellow-200">17、18 號月台</span> (往 西九條 / 弁天町)</p>
+                                    </div>
+                                    <div className="flex gap-2 items-center">
+                                        <span className="bg-gray-100 text-gray-600 text-[10px] font-bold px-1.5 py-0.5 rounded border border-gray-200 whitespace-nowrap">搭乘</span>
+                                        <p className="leading-tight">看到車就上，約 10 分鐘在「弁天町」下車</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Step 2: Bentencho */}
+                            <div className="bg-white p-4 rounded-xl border-l-4 border-[#10B981] shadow-sm">
+                                <h4 className="font-bold text-black text-sm mb-3 flex justify-between items-center">
+                                    <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-[#10B981] text-white flex items-center justify-center text-xs font-bold">2</span> 弁天町站換地鐵</span>
+                                    <span className="text-[10px] text-gray-400 font-mono">Bentencho</span>
+                                </h4>
+                                <div className="space-y-2 text-sm text-gray-600">
+                                    <div className="flex gap-2 items-center">
+                                        <span className="bg-gray-100 text-gray-600 text-[10px] font-bold px-1.5 py-0.5 rounded border border-gray-200 whitespace-nowrap">出站</span>
+                                        <p className="leading-tight">將 HARUKA 車票插入閘門回收 (通常含市區車資)</p>
+                                    </div>
+                                    <div className="flex gap-2 items-center">
+                                        <span className="bg-green-50 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded border border-green-100 whitespace-nowrap">轉乘</span>
+                                        <p className="leading-tight">跟著綠色<span className="text-[#10B981] font-bold">「中央線」</span>指標走，刷卡進站</p>
+                                    </div>
+                                    <div className="flex gap-2 items-center">
+                                        <span className="bg-gray-100 text-gray-600 text-[10px] font-bold px-1.5 py-0.5 rounded border border-gray-200 whitespace-nowrap">月台</span>
+                                        <p className="leading-tight">前往 <span className="font-bold text-black bg-yellow-100 px-1 rounded border border-yellow-200">1 號月台</span> (往 宇宙廣場 / Cosmosquare)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Step 3: Osakako */}
+                            <div className="bg-white p-4 rounded-xl border-l-4 border-[#4A70A9] shadow-sm">
+                                <h4 className="font-bold text-black text-sm mb-3 flex justify-between items-center">
+                                    <span className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-[#4A70A9] text-white flex items-center justify-center text-xs font-bold">3</span> 大阪港站抵達</span>
+                                    <span className="text-[10px] text-gray-400 font-mono">Osakako</span>
+                                </h4>
+                                <div className="grid grid-cols-2 gap-3 mb-3">
+                                    <div className="bg-[#FAF9F6] p-2 rounded-lg text-center border border-[#6386BB]/10">
+                                        <div className="text-lg mb-1">🧳</div>
+                                        <div className="text-xs font-bold text-[#4A70A9] mb-0.5">大行李 (電梯)</div>
+                                        <div className="text-[10px] text-gray-500">請走 1 號出口</div>
+                                        <div className="text-[9px] text-gray-400">(出站後需過馬路)</div>
+                                    </div>
+                                    <div className="bg-[#FAF9F6] p-2 rounded-lg text-center border border-[#6386BB]/10">
+                                        <div className="text-lg mb-1">⚡</div>
+                                        <div className="text-xs font-bold text-[#F26419] mb-0.5">最快 (樓梯)</div>
+                                        <div className="text-[10px] text-gray-500">請走 4 號出口</div>
+                                        <div className="text-[9px] text-gray-400">(離飯店最近)</div>
+                                    </div>
+                                </div>
+                                <div className="text-sm text-gray-600 bg-[#FAF9F6] p-3 rounded-lg flex gap-2 items-start border border-[#6386BB]/10">
+                                    <MapPin size={16} className="text-[#4A70A9] flex-shrink-0 mt-0.5" />
+                                    <p className="leading-relaxed text-xs">出站後，<span className="font-bold text-black">背對摩天輪方向</span> (往南) 走進巷子，直走約 3-5 分鐘即可抵達 FDS Serene。</p>
+                                </div>
+                            </div>
                         </div>
                     </CollapsibleSection>
                     <CollapsibleSection title="海遊館 ➜ 心齋橋/難波" subTitle="市區移動" icon={TrainFront} accentColor="bg-[#8FABD4]">
