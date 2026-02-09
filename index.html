@@ -270,7 +270,8 @@
                     { type: 'train', title: '10:12 高鐵 & 機捷前往機場', desc: '🚄 高鐵 0814 車次\n10:12 雲林站 ➜ 11:18 桃園站\n\n🚇 機場捷運\n11:32 高鐵桃園站 ➜ 11:51 第一航廈', linkTab: null },
                     { type: 'plane', title: '14:40 機場吃飯 + 搭飛機', desc: '', linkTab: null },
                     { type: 'map', title: '抵達大阪 & 前往市區', desc: '下飛機後前往大阪市區', linkTab: 'transport' },
-                    { type: 'hotel', title: '從市區搭車回飯店入住', desc: '入住 FDS Serene', linkTab: 'accommodation' }
+                    { type: 'hotel', title: '從市區搭車回飯店入住', desc: '入住 FDS Serene', linkTab: 'accommodation' },
+                    { type: 'food', title: '晚餐：Yakitori Daikichi', desc: 'やきとり大吉 大阪港店', linkTab: null, externalLink: 'https://share.google/zi463E6JnNsgeVBxj', linkText: 'Google Map' }
                 ],
                 2: [
                     { type: 'car', title: '前往環球影城', desc: '飯店 ➜ 環球影城 (搭乘 Uber / DiDi / GO)\n\n📍 上車地：大阪府大阪市港区築港2-4-27\n📍 下車地：USJ ユニバーサル・スタジオ・ジャパン', linkTab: null },
@@ -376,13 +377,15 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                const saved = localStorage.getItem('osaka_itinerary_2026_v24'); // Updated to v24
+                // 修改這裡：將版本號從 v25 改為 v26，強制瀏覽器讀取新的預設資料
+                const saved = localStorage.getItem('osaka_itinerary_2026_v26'); 
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                localStorage.setItem('osaka_itinerary_2026_v24', JSON.stringify(itineraryData));
+                // 修改這裡：同步更新儲存的名稱為 v26
+                localStorage.setItem('osaka_itinerary_2026_v26', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
