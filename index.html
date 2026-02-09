@@ -274,7 +274,16 @@
                 ],
                 2: [
                     { type: 'car', title: '前往環球影城', desc: '飯店 ➜ 環球影城 (搭乘 Uber / DiDi / GO)\n\n📍 上車地：大阪府大阪市港区築港2-4-27\n📍 下車地：USJ ユニバーサル・スタジオ・ジャパン', linkTab: null },
-                    { type: 'ticket', title: '環球影城 USJ ꒰✩´˘`✩꒱', desc: '', linkTab: null, externalLink: 'https://q6l3wq.csb.app/', linkText: '遊玩規劃' },
+                    { 
+                        type: 'ticket', 
+                        title: '環球影城 USJ ꒰✩´˘`✩꒱', 
+                        desc: '', 
+                        linkTab: null, 
+                        externalLink: 'https://q6l3wq.csb.app/', 
+                        linkText: '遊玩規劃',
+                        secondaryLink: 'https://drive.google.com/drive/folders/1e-cAJPXKh_f9a1crUbRDFcReBYWcGafy?usp=drive_link',
+                        secondaryLinkText: '入園門票'
+                    },
                     { type: 'food', title: '晚餐', desc: '尚待討論！', linkTab: null }
                 ],
                 3: [
@@ -639,6 +648,17 @@
                                                             <ArrowRight size={14} className="text-[#6386BB] group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2"/>
                                                         </a>
                                                     )}
+
+                                                    {/* 第二個外部連結按鈕 (入園門票) */}
+                                                    {item.secondaryLink && (
+                                                        <a href={item.secondaryLink} target="_blank" rel="noreferrer" className="bg-white border border-[#6386BB]/20 p-3 rounded-xl flex justify-between items-center group cursor-pointer hover:border-[#4A70A9] mt-2 block no-underline">
+                                                            <div className="text-sm text-[#4A70A9] font-bold flex items-center gap-2">
+                                                                <Ticket size={14} className="text-[#4A70A9]"/>
+                                                                {item.secondaryLinkText || '查看詳情'}
+                                                            </div>
+                                                            <ArrowRight size={14} className="text-[#6386BB] group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2"/>
+                                                        </a>
+                                                    )}
                                                     
                                                     {/* 航班按鈕 (僅 Day1/5 plane) */}
                                                     {(day === 1 && item.type === 'plane') || (day === 5 && item.type === 'plane') ? (
@@ -918,25 +938,10 @@
             };
 
             const TodoView = () => {
-                const [isAdding, setIsAdding] = useState(false);
-                const [newTodoText, setNewTodoText] = useState('');
-                const [newTodoNote, setNewTodoNote] = useState(''); 
-                const [newTodoDate, setNewTodoDate] = useState(''); 
-                const [newTodoLink, setNewTodoLink] = useState(''); 
-                const [newCategory, setNewCategory] = useState('其他');
-
-                const toggleTodo = (id) => {
-                    setTodos(todos.map(t => {
-                        if (t.id !== id) return t;
-                        if (t.status === 'todo') return { ...t, status: 'done' };
-                        if (t.status === 'done') return { ...t, status: 'waiting' };
-                        if (t.status === 'waiting') return { ...t, status: 'todo' };
-                        return t;
-                    }));
-                };
+                const [localTodos, setLocalTodos] = useState([]);
+                const [loading, setLoading] = useState(true);
 
                 const handleAddTodo = () => {
-                    // 打開 Google 試算表
                     window.open('https://docs.google.com/spreadsheets/d/1vvvNj9oiw53u_OUSwJlhraNFoIsLUHJZLhiNApedPFI/edit?usp=sharing', '_blank');
                 };
 
@@ -986,34 +991,33 @@
                     return rows;
                 };
 
-                // Fetch data from Google Sheet
-                const [localTodos, setLocalTodos] = useState([]);
-                const [loading, setLoading] = useState(true);
-                
-                useEffect(() => {
-                    const fetchTodos = async () => {
-                        try {
-                            const response = await fetch('https://docs.google.com/spreadsheets/d/1vvvNj9oiw53u_OUSwJlhraNFoIsLUHJZLhiNApedPFI/gviz/tq?tqx=out:csv');
-                            const text = await response.text();
-                            const rows = parseCSV(text).slice(1); // Skip header
-                            
-                            const parsedTodos = rows.map((row, index) => ({
-                                id: index,
-                                text: row[0] || '',
-                                status: row[1] || 'todo',
-                                date: row[2] || '',
-                                category: row[3] || '其他',
-                                note: row[4] || '',
-                                link: row[5] || ''
-                            })).filter(t => t.text); // Filter empty rows
+                const fetchTodos = async () => {
+                    setLoading(true);
+                    try {
+                        // 改用 export?format=csv 替代 gviz，確保所有純文字資料都會被抓下來，不會因為格式判斷錯誤而被過濾
+                        const response = await fetch(`https://docs.google.com/spreadsheets/d/1vvvNj9oiw53u_OUSwJlhraNFoIsLUHJZLhiNApedPFI/export?format=csv&gid=0&t=${Date.now()}`);
+                        const text = await response.text();
+                        const rows = parseCSV(text).slice(1); // Skip header
+                        
+                        const parsedTodos = rows.map((row, index) => ({
+                            id: index,
+                            text: (row[0] || '').trim(),
+                            status: (row[1] || 'todo').trim(), // 確保修剪空白
+                            date: (row[2] || '').trim(),
+                            category: (row[3] || '其他').trim(),
+                            note: (row[4] || '').trim(),
+                            link: (row[5] || '').trim()
+                        })).filter(t => t.text); // Filter empty rows
 
-                            setLocalTodos(parsedTodos);
-                        } catch (error) {
-                            console.error('Error fetching todos:', error);
-                        } finally {
-                            setLoading(false);
-                        }
-                    };
+                        setLocalTodos(parsedTodos);
+                    } catch (error) {
+                        console.error('Error fetching todos:', error);
+                    } finally {
+                        setLoading(false);
+                    }
+                };
+
+                useEffect(() => {
                     fetchTodos();
                 }, []);
 
@@ -1021,7 +1025,17 @@
 
                 return (
                     <div className="space-y-6 animate-in fade-in duration-500">
-                        <div className="flex justify-between items-center"><h2 className="text-lg font-bold text-black">行前清單</h2><button onClick={handleAddTodo} className="text-sm text-[#4A70A9] flex items-center gap-1 hover:underline"><PlusCircle size={16} /> 新增</button></div>
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-lg font-bold text-black">行前清單</h2>
+                            <div className="flex items-center gap-3">
+                                <button onClick={fetchTodos} className="text-[#6386BB] hover:text-[#4A70A9] transition-colors p-1" title="重新整理">
+                                    <RefreshCw size={16} className={`${loading ? 'animate-spin' : ''}`} />
+                                </button>
+                                <button onClick={handleAddTodo} className="text-sm text-[#4A70A9] flex items-center gap-1 hover:underline">
+                                    <PlusCircle size={16} /> 新增
+                                </button>
+                            </div>
+                        </div>
                         
                         {loading ? (
                              <div className="text-center py-10 text-[#6386BB] text-sm animate-pulse">載入中...</div>
@@ -1153,7 +1167,3 @@
     </script>
 </body>
 </html>
-
-
-
-
