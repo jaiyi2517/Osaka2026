@@ -389,15 +389,15 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                // 修改這裡：將版本號從 v32 改為 v33，強制瀏覽器讀取新的預設資料
-                const saved = localStorage.getItem('osaka_itinerary_2026_v33'); 
+                // 修改這裡：將版本號從 v35 改為 v36，強制瀏覽器讀取新的預設資料
+                const saved = localStorage.getItem('osaka_itinerary_2026_v36'); 
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                // 修改這裡：同步更新儲存的名稱為 v33
-                localStorage.setItem('osaka_itinerary_2026_v33', JSON.stringify(itineraryData));
+                // 修改這裡：同步更新儲存的名稱為 v36
+                localStorage.setItem('osaka_itinerary_2026_v36', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
@@ -800,10 +800,45 @@
                                 <span className="font-bold text-sm text-[#4A70A9]">HARUKA 車票使用攻略</span>
                             </div>
                             
-                            <div className="space-y-4">
-                                {/* Step 1 */}
+                            <div className="space-y-5">
+                                {/* Step 1: Exit Customs */}
                                 <div className="flex gap-3">
                                     <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">1</div>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-bold text-black mb-1">出關 & 前往 2F</p>
+                                        <p className="text-xs text-gray-600 leading-relaxed">
+                                            從 1F 國際線到達大廳出來，直接找手扶梯前往 2F
+                                            <br />
+                                            跟著 <span className="font-bold text-black">「鐵道 (Railways)」</span> 或 <span className="font-bold text-black">「JR / Nankai」</span> 的標示行走
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Step 2: Go to Station */}
+                                <div className="flex gap-3">
+                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">2</div>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-bold text-black mb-1">前往車站</p>
+                                        <p className="text-xs text-gray-600 leading-relaxed">
+                                            到了 2F 走出戶外，經過空橋（聯通橋）直達 <span className="font-bold text-black">關西機場車站</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Step 3: Choose Entrance */}
+                                <div className="flex gap-3">
+                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">3</div>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-bold text-black mb-1">選擇入口 (重要！)</p>
+                                        <p className="text-xs text-gray-600 mb-2">走進車站大廳後，請選擇 <span className="text-[#0072BC] font-bold">右邊藍色</span> 的 JR 入口</p>
+                                    </div>
+                                </div>
+
+                                <div className="border-t border-dashed border-gray-300 my-2"></div>
+
+                                {/* Step 4: Login */}
+                                <div className="flex gap-3">
+                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">4</div>
                                     <div className="flex-1">
                                         <p className="text-sm font-bold text-black mb-1">登入 WEST QR 系統</p>
                                         <p className="text-xs text-gray-500 mb-2">找到您的車票</p>
@@ -813,27 +848,23 @@
                                     </div>
                                 </div>
 
-                                {/* Step 2 */}
+                                {/* Step 5: Activate */}
                                 <div className="flex gap-3">
-                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">2</div>
+                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">5</div>
                                     <div className="flex-1">
                                         <p className="text-sm font-bold text-black mb-1">啟用車票</p>
                                         <p className="text-xs text-gray-600 leading-relaxed">
-                                            點擊 <span className="font-bold text-[#F26419]">「開始使用 (Use Ticket)」</span>，畫面會出現動態 QR Code。
+                                            點擊 <span className="font-bold text-[#F26419]">「開始使用 (Use Ticket)」</span>，畫面會出現動態 QR Code
                                         </p>
                                     </div>
                                 </div>
 
-                                {/* Step 3 */}
+                                {/* Step 6: Scan */}
                                 <div className="flex gap-3">
-                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">3</div>
+                                    <div className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center text-[#4A70A9] font-bold text-xs shadow-sm border border-[#4A70A9]/20">6</div>
                                     <div className="flex-1">
                                         <p className="text-sm font-bold text-black mb-1">掃碼進站</p>
                                         <ul className="text-xs text-gray-600 space-y-1">
-                                            <li className="flex items-start gap-1.5">
-                                                <span className="mt-1.5 w-1 h-1 rounded-full bg-[#4A70A9] flex-shrink-0"></span>
-                                                <span>直接前往 JR 改札口</span>
-                                            </li>
                                             <li className="flex items-start gap-1.5">
                                                 <span className="mt-1.5 w-1 h-1 rounded-full bg-[#4A70A9] flex-shrink-0"></span>
                                                 <span>尋找 <span className="text-red-500 font-bold bg-red-50 px-1 rounded border border-red-100">紅色 QR 掃描器</span> 閘門</span>
