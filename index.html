@@ -389,15 +389,15 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                // 修改這裡：將版本號從 v35 改為 v36，強制瀏覽器讀取新的預設資料
-                const saved = localStorage.getItem('osaka_itinerary_2026_v36'); 
+                // 修改這裡：將版本號從 v36 改為 v37，強制瀏覽器讀取新的預設資料
+                const saved = localStorage.getItem('osaka_itinerary_2026_v37'); 
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                // 修改這裡：同步更新儲存的名稱為 v36
-                localStorage.setItem('osaka_itinerary_2026_v36', JSON.stringify(itineraryData));
+                // 修改這裡：同步更新儲存的名稱為 v37
+                localStorage.setItem('osaka_itinerary_2026_v37', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
@@ -809,7 +809,7 @@
                                         <p className="text-xs text-gray-600 leading-relaxed">
                                             從 1F 國際線到達大廳出來，直接找手扶梯前往 2F
                                             <br />
-                                            跟著 <span className="font-bold text-black">「鐵道 (Railways)」</span> 或 <span className="font-bold text-black">「JR / Nankai」</span> 的標示行走
+                                            跟著 <span className="font-bold text-black">「JR / Nankai」</span> 的標示行走
                                         </p>
                                     </div>
                                 </div>
@@ -820,7 +820,7 @@
                                     <div className="flex-1">
                                         <p className="text-sm font-bold text-black mb-1">前往車站</p>
                                         <p className="text-xs text-gray-600 leading-relaxed">
-                                            到了 2F 走出戶外，經過空橋（聯通橋）直達 <span className="font-bold text-black">關西機場車站</span>
+                                            到了 2F 走出戶外，經過空橋直達 <span className="font-bold text-black">關西機場車站</span>
                                         </p>
                                     </div>
                                 </div>
