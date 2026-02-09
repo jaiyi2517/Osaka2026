@@ -269,7 +269,18 @@
                 1: [
                     { type: 'train', title: '10:12 高鐵 & 機捷前往機場', desc: '🚄 高鐵 0814 車次\n10:12 雲林站 ➜ 11:18 桃園站\n\n🚇 機場捷運\n11:32 高鐵桃園站 ➜ 11:51 第一航廈', linkTab: null },
                     { type: 'plane', title: '14:40 機場吃飯 + 搭飛機', desc: '', linkTab: null },
-                    { type: 'map', title: '抵達大阪 & 前往市區', desc: '下飛機後前往大阪市區', linkTab: 'transport' },
+                    { 
+                        type: 'train', 
+                        title: '抵達大阪 & 前往市區', 
+                        desc: '', // 修改這裡：移除原本的描述文字 "下飛機後前往大阪市區"
+                        transport: [
+                            { action: '起點', station: '關西機場站', badge: 'HARUKA', badgeColor: 'bg-[#0072BC]' },
+                            { action: '轉乘', station: '天王寺站', badge: 'JR 大阪環狀線', badgeColor: 'bg-[#E11D48]' },
+                            { action: '轉乘', station: '弁天町站', badge: '地鐵 中央線', badgeColor: 'bg-[#10B981]' },
+                            { action: '抵達', station: '大阪港站' }
+                        ],
+                        linkTab: null 
+                    },
                     { type: 'hotel', title: '從市區搭車回飯店入住', desc: '入住 FDS Serene', linkTab: 'accommodation' },
                     { type: 'food', title: '晚餐：Yakitori Daikichi', desc: 'やきとり大吉 大阪港店', linkTab: null, externalLink: 'https://share.google/zi463E6JnNsgeVBxj', linkText: 'Google Map' }
                 ],
@@ -377,15 +388,15 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                // 修改這裡：將版本號從 v25 改為 v26，強制瀏覽器讀取新的預設資料
-                const saved = localStorage.getItem('osaka_itinerary_2026_v26'); 
+                // 修改這裡：將版本號從 v27 改為 v28，強制瀏覽器讀取新的預設資料
+                const saved = localStorage.getItem('osaka_itinerary_2026_v28'); 
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                // 修改這裡：同步更新儲存的名稱為 v26
-                localStorage.setItem('osaka_itinerary_2026_v26', JSON.stringify(itineraryData));
+                // 修改這裡：同步更新儲存的名稱為 v28
+                localStorage.setItem('osaka_itinerary_2026_v28', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
