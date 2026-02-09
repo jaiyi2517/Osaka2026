@@ -297,7 +297,7 @@
                         secondaryLink: 'https://drive.google.com/drive/folders/1e-cAJPXKh_f9a1crUbRDFcReBYWcGafy?usp=drive_link',
                         secondaryLinkText: '入園門票'
                     },
-                    { type: 'food', title: '晚餐', desc: '尚待討論！', linkTab: null }
+                    { type: 'food', title: '晚餐：環球影城步行街', desc: '美食街或章魚燒公園\n（章魚燒可使用豪華關西優惠券！）', linkTab: null }
                 ],
                 3: [
                     { type: 'hotel', title: '09:30 退房 & 前往大阪港站', desc: 'FDS Serene Check-out\n收拾行李，步行前往地鐵大阪港站', linkTab: null },
@@ -348,23 +348,24 @@
                     }
                 ],
                 4: [
-                    { type: 'hotel', title: '09:40 飯店退房 & 寄放行李', desc: '在新今宮飯店寄放行李，輕裝出發', linkTab: null },
+                    { type: 'hotel', title: '09:40 飯店退房', desc: '行李寄放飯店櫃台，輕裝出發', linkTab: null },
                     { 
                         type: 'train', 
-                        title: '10:00 前往難波', 
-                        desc: '抵達難波站後，往「南口」或百貨連通道方向移動', 
+                        title: '09:45 新今宮 ⮕ 難波', 
+                        desc: '抵達後，往「北出口」指標走，Bic Camera 就在旁邊', 
                         transport: [
                             { action: '起點', station: '新今宮站', badge: '南海電鐵', badgeColor: 'bg-[#F97316]' }, 
-                            { action: '抵達', station: '難波站', note: '車程約 2 分鐘' }
+                            { action: '抵達', station: '難波站', note: '1站，約 2 分鐘' }
                         ],
                         linkTab: null 
                     },
-                    { type: 'map', title: '10:20 Namba Parks 空中花園', desc: '從 8 樓沿戶外階梯往下散步，享受美景', linkTab: null },
+                    { type: 'shop', title: '10:00 購物：Bic Camera 難波店', desc: '💡 記得使用豪華關西/一般優惠券', linkTab: null },
+                    { type: 'map', title: '10:50 移動：前往 Namba Parks', desc: '步行約 5-8 分鐘，直接穿過南海難波車站', linkTab: null },
                     { type: 'shop', title: '11:00 Namba Parks 逛街', desc: '推薦 3F~5F 風格雜貨與服飾', linkTab: null },
                     { type: 'map', title: '12:15 前往餐廳', desc: '步行約 10~12 分鐘，往東南方向散步去餐廳', linkTab: null },
                     { type: 'food', title: '12:30 午餐：Tonkatsu Kokeshi', desc: 'とんかつ こけし (炸豬排名店)', linkTab: null , externalLink: 'https://share.google/kIJckOBtPQ2xArTsQ', linkText: 'Google Map' },
                     { type: 'map', title: '13:40 散步回飯店 (經新世界)', desc: '沿大馬路(堺筋)往南走\n途經新世界可玩彈珠台或逛唐吉訶德', linkTab: null },
-                    { type: 'hotel', title: '14:15 抵達飯店 & 領取行李', desc: '', linkTab: null }, // 修改這裡：移除描述文字
+                    { type: 'hotel', title: '14:15 抵達飯店 & 領取行李', desc: '', linkTab: null }, 
                     { 
                         type: 'train', 
                         title: '14:30 搭車前往機場飯店', 
@@ -389,15 +390,15 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                // 修改這裡：將版本號從 v36 改為 v37，強制瀏覽器讀取新的預設資料
-                const saved = localStorage.getItem('osaka_itinerary_2026_v37'); 
+                // 修改這裡：將版本號從 v38 改為 v39，強制瀏覽器讀取新的預設資料
+                const saved = localStorage.getItem('osaka_itinerary_2026_v39'); 
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                // 修改這裡：同步更新儲存的名稱為 v37
-                localStorage.setItem('osaka_itinerary_2026_v37', JSON.stringify(itineraryData));
+                // 修改這裡：同步更新儲存的名稱為 v39
+                localStorage.setItem('osaka_itinerary_2026_v39', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
