@@ -271,17 +271,18 @@
                     { type: 'plane', title: '14:40 機場吃飯 + 搭飛機', desc: '', linkTab: null },
                     { 
                         type: 'train', 
-                        title: '抵達大阪 & 前往市區', 
-                        desc: '', // 修改這裡：移除原本的描述文字 "下飛機後前往大阪市區"
+                        title: '抵達大阪 & 前往 FDS Serene', 
+                        desc: '', 
                         transport: [
                             { action: '起點', station: '關西機場站', badge: 'HARUKA', badgeColor: 'bg-[#0072BC]' },
                             { action: '轉乘', station: '天王寺站', badge: 'JR 大阪環狀線', badgeColor: 'bg-[#E11D48]' },
                             { action: '轉乘', station: '弁天町站', badge: '地鐵 中央線', badgeColor: 'bg-[#10B981]' },
                             { action: '抵達', station: '大阪港站' }
                         ],
-                        linkTab: null 
+                        linkTab: 'accommodation', // 新增：連結到住宿頁面
+                        linkText: '查看住宿詳情'    // 新增：按鈕文字
                     },
-                    { type: 'hotel', title: '從市區搭車回飯店入住', desc: '入住 FDS Serene', linkTab: 'accommodation' },
+                    // 已移除：原本的「從市區搭車回飯店入住」區塊
                     { type: 'food', title: '晚餐：Yakitori Daikichi', desc: 'やきとり大吉 大阪港店', linkTab: null, externalLink: 'https://share.google/zi463E6JnNsgeVBxj', linkText: 'Google Map' }
                 ],
                 2: [
@@ -363,7 +364,7 @@
                     { type: 'map', title: '12:15 前往餐廳', desc: '步行約 10~12 分鐘，往東南方向散步去餐廳', linkTab: null },
                     { type: 'food', title: '12:30 午餐：Tonkatsu Kokeshi', desc: 'とんかつ こけし (炸豬排名店)', linkTab: null , externalLink: 'https://share.google/kIJckOBtPQ2xArTsQ', linkText: 'Google Map' },
                     { type: 'map', title: '13:40 散步回飯店 (經新世界)', desc: '沿大馬路(堺筋)往南走\n途經新世界可玩彈珠台或逛唐吉訶德', linkTab: null },
-                    { type: 'hotel', title: '14:15 抵達飯店 & 領取行李', desc: '回飯店大廳稍作整理、領取行李', linkTab: null },
+                    { type: 'hotel', title: '14:15 抵達飯店 & 領取行李', desc: '', linkTab: null }, // 修改這裡：移除描述文字
                     { 
                         type: 'train', 
                         title: '14:30 搭車前往機場飯店', 
@@ -388,15 +389,15 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                // 修改這裡：將版本號從 v27 改為 v28，強制瀏覽器讀取新的預設資料
-                const saved = localStorage.getItem('osaka_itinerary_2026_v28'); 
+                // 修改這裡：將版本號從 v29 改為 v30，強制瀏覽器讀取新的預設資料
+                const saved = localStorage.getItem('osaka_itinerary_2026_v30'); 
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                // 修改這裡：同步更新儲存的名稱為 v28
-                localStorage.setItem('osaka_itinerary_2026_v28', JSON.stringify(itineraryData));
+                // 修改這裡：同步更新儲存的名稱為 v30
+                localStorage.setItem('osaka_itinerary_2026_v30', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
