@@ -390,15 +390,15 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                // 修改這裡：將版本號從 v39 改為 v40，強制瀏覽器讀取新的預設資料
-                const saved = localStorage.getItem('osaka_itinerary_2026_v40'); 
+                // 修改這裡：將版本號從 v41 改為 v42，強制瀏覽器讀取新的預設資料
+                const saved = localStorage.getItem('osaka_itinerary_2026_v42'); 
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                // 修改這裡：同步更新儲存的名稱為 v40
-                localStorage.setItem('osaka_itinerary_2026_v40', JSON.stringify(itineraryData));
+                // 修改這裡：同步更新儲存的名稱為 v42
+                localStorage.setItem('osaka_itinerary_2026_v42', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
@@ -514,10 +514,11 @@
                                 <h2 className="text-lg font-bold text-black">每日行程</h2>
                                 <p className="text-[#4A70A9] text-xs mt-1 font-medium">Exploring Osaka</p>
                             </div>
-                            <button onClick={() => setIsEditing(!isEditing)} className="text-xs bg-[#F26419] text-white px-3 py-1.5 rounded-full hover:bg-[#F26419]/80 transition shadow-sm flex items-center gap-2">
-                                {isEditing ? <X size={14} /> : <PlusCircle size={14} />}
-                                {isEditing ? '取消新增' : '新增行程'}
-                            </button>
+                            {/* 修改這裡：將按鈕背景色改為藍色 (#4A70A9) */}
+                            <a href="https://www.vjw.digital.go.jp/main/#/vjwplo001" target="_blank" rel="noreferrer" className="text-xs bg-[#4A70A9] text-white px-3 py-1.5 rounded-full hover:bg-[#3b5a8a] transition shadow-sm flex items-center gap-1.5 font-bold no-underline">
+                                <ExternalLink size={14} />
+                                Visit Japan
+                            </a>
                         </div>
 
                         {isEditing && (
