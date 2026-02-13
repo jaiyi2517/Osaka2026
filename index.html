@@ -125,6 +125,7 @@
         const Trash2 = (props) => <IconWrapper name="Trash2" {...props} />;
         const Check = (props) => <IconWrapper name="Check" {...props} />;
         const ExternalLinkIcon = (props) => <IconWrapper name="ExternalLink" {...props} />;
+        const QrCode = (props) => <IconWrapper name="QrCode" {...props} />; // 新增 QrCode 圖示
 
         const ShoppingBagIcon = ({size, className}) => (
             <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -390,15 +391,15 @@
             };
 
             const [itineraryData, setItineraryData] = useState(() => {
-                // 修改這裡：將版本號從 v41 改為 v42，強制瀏覽器讀取新的預設資料
-                const saved = localStorage.getItem('osaka_itinerary_2026_v42'); 
+                // 修改這裡：將版本號從 v42 改為 v43，強制瀏覽器讀取新的預設資料
+                const saved = localStorage.getItem('osaka_itinerary_2026_v43'); 
                 return saved ? JSON.parse(saved) : DEFAULT_ITINERARY;
             });
 
             // --- Effects for Auto-Saving ---
             useEffect(() => {
-                // 修改這裡：同步更新儲存的名稱為 v42
-                localStorage.setItem('osaka_itinerary_2026_v42', JSON.stringify(itineraryData));
+                // 修改這裡：同步更新儲存的名稱為 v43
+                localStorage.setItem('osaka_itinerary_2026_v43', JSON.stringify(itineraryData));
             }, [itineraryData]);
 
             useEffect(() => {
@@ -998,6 +999,12 @@
                             <div className="grid grid-cols-2 gap-3 mb-3 relative z-10">
                                 <div className="bg-white p-2.5 rounded-lg shadow-sm border border-[#6386BB]/10"><span className="text-[10px] text-gray-500 block mb-0.5">大門密碼 (先按呼出)</span><span className="font-mono font-bold text-lg text-black tracking-wider">8668</span></div>
                                 <div className="bg-white p-2.5 rounded-lg shadow-sm border border-[#6386BB]/10"><span className="text-[10px] text-gray-500 block mb-0.5">Check-in 代碼</span><span className="font-mono font-bold text-lg text-black tracking-wider">19544028</span></div>
+                            </div>
+                            {/* 新增：預登記 QR 按鈕 */}
+                            <div className="mb-3 relative z-10">
+                                <a href="https://www.onestayapp.com/zh/v2/checkin/booking?defaultShowQrcode=&checkinCode=19544028&pinCode=psx6qx8ceg" target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-[#4A70A9] text-white py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#3b5a8a] transition-all">
+                                    <QrCode size={16} /> 預登記 QR Code
+                                </a>
                             </div>
                             <div className="bg-white p-3 rounded-lg shadow-sm border border-[#6386BB]/10 relative z-10">
                                 <ol className="text-xs text-black/80 space-y-1.5 list-decimal list-inside font-medium"><li>大門輸入「呼出 8668」入館</li><li>平板輸入代碼，填寫資料並簽名</li><li><span className="text-[#F26419]">務必拍照</span>平板顯示的「房號 & 密碼」</li></ol>
